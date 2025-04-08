@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        p{
+            margin-bottom: 2em;
+        }
+        #view-todo-btn {
+            font-size: 1.1em; 
+            padding: 0.8em 1.5em;
+            width : 80%;
+        }
+
+
+        @media (max-width: 480px) {
+            #view-todo-btn {
+                font-size: 0.8em;
+            }
+        } 
+    </style>
+</head>
+<body>
+    <div class="holder">
+        <h2>Welcome, <span id="username"></span>!</h2>
+        <p>This is your todo list:</p>
+        <button id="view-todo-btn">Go to Todo List</button>
+    </div>
+
+    <script>
+        const username = localStorage.getItem('username');
+        document.getElementById('username').textContent = username;
+
+        document.getElementById('view-todo-btn').addEventListener('click', function() {
+            window.location.href = 'todo.html';  // Redirect to todo list page
+        });
+    </script>
+</body>
+</html>
