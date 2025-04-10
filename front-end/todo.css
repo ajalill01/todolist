@@ -1,0 +1,329 @@
+*{
+    margin :0;
+    padding: 0;
+}
+
+body{
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+    background-color: #007bff;
+    justify-content: space-between;
+    
+}
+
+header h2{
+    font-size: 1.4em;
+    padding: 3%;
+    color : white;
+}
+
+section{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border: black solid 1px;
+    text-align: center;
+    padding: 3%;
+}
+
+section .hol{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 2%;
+    width: 90%;
+}
+
+section .hol button{
+    all: unset;
+    background-color: #007bff;
+    color : white;
+    border-radius: 20px;
+    padding: 20px;
+    width: 10%;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+section .hol button:hover{
+    background-color: #0056b3;
+
+}
+
+.task{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: #f4f4f9;
+    border-bottom: black solid 0.5px;
+    align-items: center;
+    justify-content: center;
+}
+
+.task .holder{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 2%;
+    width: 90%;
+    justify-content: space-between;
+}
+
+.task .holder .text {
+    all: unset;
+    font-size: 1.2rem;
+    padding: 0.5em;
+    width: 60%;
+    height: 2.5em;
+    background-color: #f4f4f9;
+    box-sizing: border-box;
+    color: #333;
+    border-radius: 0.5em;
+    resize: none;
+    vertical-align: middle; 
+}
+
+.task .holder .more{
+    display: none;
+}
+
+.task .holder .buttons{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 2%;
+    width: 30%;
+    justify-content: space-between;
+    
+}
+
+.task .holder .buttons .status{
+    all: unset;
+    background-color: #007bff;
+    color : white;
+    border-radius: 20px;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    height: 2.5em;
+    width: 20%;
+    text-align: center;
+    vertical-align: middle; 
+}
+
+.task .holder .buttons .status:hover {
+    background-color: #0056b3;
+}
+
+.task .holder .buttons .edit{
+    all: unset;
+    background-color: #ffc107;
+    color : white;
+    border-radius: 20px;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    height: 2.5em;
+    width: 20%;
+    text-align: center;
+    vertical-align: middle; 
+}
+
+.task .holder .buttons .edit:hover {
+    background-color: #e0a800;
+}
+
+.task .holder .buttons .delete{    
+    all: unset;
+    background-color: #dc3545;
+    color : white;
+    border-radius: 20px;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    height: 2.5em;
+    width: 20%;
+    text-align: center;
+    vertical-align: middle; 
+}
+
+.task .holder .buttons .delete:hover {
+    background-color: #c82333;
+}
+
+footer{
+    margin: 2em 0;
+    width: 100%;
+    text-align: center;
+}
+footer button{
+    all: unset;
+    background-color: #dc3545;
+    color : white;
+    border-radius: 20px;
+    padding: 20px;
+    width: 10%;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    height: 15px;
+    width: 10%;
+}
+
+@media (max-width : 890px) {
+    .task .holder .buttons .status{
+        font-size: 0.8em;
+        }
+    
+    .task .holder .buttons .edit{
+        font-size: 0.8em;    
+    }
+        
+    .task .holder .buttons .delete{    
+        font-size: 0.8em;
+    }
+       
+}
+
+@media (max-width : 700px) {
+    header h2{
+        font-size: 1em;
+    }    
+
+    section .hol button{
+        font-size: 0.8em;
+    }
+
+    
+}
+
+@media (max-width : 650px) {
+    .task .holder .buttons .status{
+        font-size: 0.6em;
+        padding: 5px;
+        }
+    
+    .task .holder .buttons .edit{
+        font-size: 0.6em;    
+        padding: 5px;
+    }
+        
+    .task .holder .buttons .delete{    
+        font-size: 0.6em;
+        padding: 5px;
+    }
+}
+
+@media (max-width : 560px) {
+    section .hol button{
+        width: 20%;
+    }
+
+    footer button{
+        width: 20%;
+    }
+
+    .task{
+        height: 80px;
+        overflow-y: visible;
+    }
+    
+
+    .task .holder .more {
+        display: flex;
+        all: unset;
+        cursor: pointer;
+    }
+
+    .task .holder .buttons {
+        display: none;
+        flex-direction: column;
+        background-color: #f0f0f5;
+        z-index: 100;
+        gap: 10px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    
+
+    .task .holder .buttons .status{
+        font-size: 0.6em;
+        padding: 5px;
+        width: 60%;
+        }
+    
+    .task .holder .buttons .edit{
+        font-size: 0.6em;    
+        padding: 5px;
+        width: 60%;
+    }
+        
+    .task .holder .buttons .delete{    
+        font-size: 0.6em;
+        padding: 5px;
+        width: 60%;
+    }
+
+}
+
+
+@media (max-width : 470px) {
+    .task .holder .text{
+        font-size: 0.9em;
+        }
+}
+
+
+
+@media (max-width : 350px) {
+    header h2{
+        font-size: 0.8em;
+    }    
+
+    .task .holder .text{
+        font-size: 0.8em;
+        }
+
+    section .hol button{
+        font-size: 0.8em;
+        padding: 10px;
+    }
+
+    footer button{
+        font-size: 0.8em;
+        padding: 10px;
+    }
+}
+
+
+@media (max-width : 270px) {
+    header h2{
+        font-size: 0.6em;
+    }    
+
+    section .hol button{
+        font-size: 0.6em;
+    }
+
+    .task .holder .text{
+        font-size: 0.6em;
+        }
+
+    footer button{
+        font-size: 0.6em;
+    }
+}

@@ -3,15 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="todo.css">
     <title>To DO</title>
 </head>
 <body>
     <header>
-
+        <h2>THIS IS YOUR TO DO LIST</h2>
+        <h2 id="username">username</h2>
     </header>
 
-    <footer>
+    <section><div class="hol"><button>add task</button></div></section>
+    
 
+    <div class="task">
+        <div class="holder">
+        <textarea readonly class="text" placeholder="the task" maxlength="70"></textarea>
+        <button class="more" onclick="toggleButtons(this)"><b>...</b></button>
+        <div class="buttons">
+        <button class="status">finish</button>
+        <button class="edit" onclick="edit(this)">edit</button>
+        <button class="delete">delete</button>
+        <button class="save" style="display:none;" onclick="save()">Save</button>
+        <button class="cancel" style="display:none;" onclick="cancel()">Cancel</button>
+        </div>
+    </div>
+    </div>
+
+
+    <div class="task">
+        <div class="holder">
+        <textarea class="text" placeholder="the task" maxlength="70"></textarea>
+        <button class="more" onclick="toggleButtons(this)"><b>...</b></button>
+        <div class="buttons">
+        <button class="status">finish</button>
+        <button class="edit">edit</button>
+        <button class="delete">delete</button>
+        </div>
+    </div>
+    </div>
+
+    <div class="task">
+        <div class="holder">
+        <textarea class="text" placeholder="the task" maxlength="70"></textarea>
+        <button class="more" onclick="toggleButtons(this)"><b>...</b></button>
+        <div class="buttons">
+        <button class="status">finish</button>
+        <button class="edit">edit</button>
+        <button class="delete">delete</button>
+        </div>
+    </div>
+    </div>
+
+    <div class="task">
+        <div class="holder">
+        <textarea class="text" placeholder="the task" maxlength="70"></textarea>
+        <button class="more" onclick="toggleButtons(this)"><b>...</b></button>
+        <div class="buttons">
+        <button class="status">finish</button>
+        <button class="edit">edit</button>
+        <button class="delete">delete</button>
+        </div>
+    </div>
+    </div>
+
+    <script src="todo.js"></script>
+
+    <footer>
+        <button>Log out</button>
     </footer>
 
     <script> src="todo.js"</script>
