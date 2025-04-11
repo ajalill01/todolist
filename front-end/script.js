@@ -13,9 +13,9 @@ async function login(event){
     const result = await response.json()
 
     if(result.success){
-        localStorage.setItem('authToken', result.token);
+        localStorage.setItem('authToken',result.token);
         localStorage.setItem('username',username)
-        window.location.href = "welcome.html";
+        window.location.href = "todo.html";
     }
     else{
         alert(result.message)

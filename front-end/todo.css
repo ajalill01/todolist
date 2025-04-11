@@ -63,7 +63,18 @@ section .hol button:hover{
 
 }
 
-.task{
+#tasksContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: #f4f4f9;
+    align-items: center;
+    justify-content: center;
+
+}
+
+#tasksContainer .task{
     display: flex;
     align-items: center;
     width: 100%;
@@ -73,7 +84,7 @@ section .hol button:hover{
     justify-content: center;
 }
 
-.task .holder{
+#tasksContainer .task .holder{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -82,7 +93,7 @@ section .hol button:hover{
     justify-content: space-between;
 }
 
-.task .holder .text {
+#tasksContainer .task .holder .text {
     all: unset;
     font-size: 1.2rem;
     padding: 0.5em;
@@ -96,11 +107,11 @@ section .hol button:hover{
     vertical-align: middle; 
 }
 
-.task .holder .more{
+#tasksContainer .task .holder .more{
     display: none;
 }
 
-.task .holder .buttons{
+#tasksContainer .task .holder .buttons{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -110,7 +121,7 @@ section .hol button:hover{
     
 }
 
-.task .holder .buttons .status{
+#tasksContainer .task .holder .buttons .status{
     all: unset;
     background-color: #007bff;
     color : white;
@@ -124,11 +135,11 @@ section .hol button:hover{
     vertical-align: middle; 
 }
 
-.task .holder .buttons .status:hover {
+#tasksContainer .task .holder .buttons .status:hover {
     background-color: #0056b3;
 }
 
-.task .holder .buttons .edit{
+#tasksContainer .task .holder .buttons .edit{
     all: unset;
     background-color: #ffc107;
     color : white;
@@ -142,11 +153,11 @@ section .hol button:hover{
     vertical-align: middle; 
 }
 
-.task .holder .buttons .edit:hover {
+#tasksContainer .task .holder .buttons .edit:hover {
     background-color: #e0a800;
 }
 
-.task .holder .buttons .delete{    
+#tasksContainer .task .holder .buttons .delete{    
     all: unset;
     background-color: #dc3545;
     color : white;
@@ -160,7 +171,7 @@ section .hol button:hover{
     vertical-align: middle; 
 }
 
-.task .holder .buttons .delete:hover {
+#tasksContainer .task .holder .buttons .delete:hover {
     background-color: #c82333;
 }
 
@@ -183,15 +194,15 @@ footer button{
 }
 
 @media (max-width : 890px) {
-    .task .holder .buttons .status{
+    #tasksContainer .task .holder .buttons .status{
         font-size: 0.8em;
         }
     
-    .task .holder .buttons .edit{
+    #tasksContainer .task .holder .buttons .edit{
         font-size: 0.8em;    
     }
         
-    .task .holder .buttons .delete{    
+    #tasksContainer  .task .holder .buttons .delete{    
         font-size: 0.8em;
     }
        
@@ -210,17 +221,17 @@ footer button{
 }
 
 @media (max-width : 650px) {
-    .task .holder .buttons .status{
+    #tasksContainer    .task .holder .buttons .status{
         font-size: 0.6em;
         padding: 5px;
         }
     
-    .task .holder .buttons .edit{
+        #tasksContainer    .task .holder .buttons .edit{
         font-size: 0.6em;    
         padding: 5px;
     }
         
-    .task .holder .buttons .delete{    
+    #tasksContainer  .task .holder .buttons .delete{    
         font-size: 0.6em;
         padding: 5px;
     }
@@ -235,19 +246,19 @@ footer button{
         width: 20%;
     }
 
-    .task{
+    #tasksContainer .task{
         height: 80px;
         overflow-y: visible;
     }
     
 
-    .task .holder .more {
+    #tasksContainer .task .holder .more {
         display: flex;
         all: unset;
         cursor: pointer;
     }
 
-    .task .holder .buttons {
+    #tasksContainer .task .holder .buttons {
         display: none;
         flex-direction: column;
         background-color: #f0f0f5;
@@ -260,19 +271,19 @@ footer button{
 
     
 
-    .task .holder .buttons .status{
+    #tasksContainer .task .holder .buttons .status{
         font-size: 0.6em;
         padding: 5px;
         width: 60%;
         }
     
-    .task .holder .buttons .edit{
+    #tasksContainer .task .holder .buttons .edit{
         font-size: 0.6em;    
         padding: 5px;
         width: 60%;
     }
         
-    .task .holder .buttons .delete{    
+    #tasksContainer .task .holder .buttons .delete{    
         font-size: 0.6em;
         padding: 5px;
         width: 60%;
@@ -282,7 +293,7 @@ footer button{
 
 
 @media (max-width : 470px) {
-    .task .holder .text{
+    #tasksContainer .task .holder .text{
         font-size: 0.9em;
         }
 }
@@ -294,7 +305,7 @@ footer button{
         font-size: 0.8em;
     }    
 
-    .task .holder .text{
+    #tasksContainer .task .holder .text{
         font-size: 0.8em;
         }
 
@@ -319,7 +330,7 @@ footer button{
         font-size: 0.6em;
     }
 
-    .task .holder .text{
+    #tasksContainer .task .holder .text{
         font-size: 0.6em;
         }
 

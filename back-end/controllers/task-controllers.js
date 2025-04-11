@@ -16,7 +16,7 @@ const addTask = async(req,res)=>{
         await newtask.save()
 
         res.status(201).json({
-            sucess : true,
+            success : true,
             message : 'Task has created successfully',
             task : task
         })

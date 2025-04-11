@@ -14,18 +14,17 @@ app.use(cors({ origin: '*' }));
 
 app.use(express.static(path.join(__dirname, 'front-end')));
 
-// Registering routes
 app.use('/api/tasks', taskRoutes);
 app.use('/api/users', authRoutes);
 
-
+app.get('/todo', authMiddleware, (req, res) => {
+    res.sendFile(path.join(__dirname, 'front-end', 'todo.html'));
+});
 
 const port = process.env.PORT || 5000;
 
-// Connect to the database
 connectToDb();
 
-// Start the server
 app.listen(port, () => {
     console.log(`Server now is running on ${port}.`);
 });
