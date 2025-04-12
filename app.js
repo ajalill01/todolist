@@ -17,6 +17,9 @@ app.use(express.static(path.join(__dirname, 'front-end')));
 app.use('/api/tasks', taskRoutes);
 app.use('/api/users', authRoutes);
 
+app.get('/',(req, res) => {
+    res.sendFile(path.join(__dirname, 'front-end', 'index.html'));
+})
 app.get('/todo', authMiddleware, (req, res) => {
     res.sendFile(path.join(__dirname, 'front-end', 'todo.html'));
 });
