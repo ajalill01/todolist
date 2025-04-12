@@ -18,7 +18,8 @@ const addTask = async(req,res)=>{
         res.status(201).json({
             success : true,
             message : 'Task has created successfully',
-            task : task
+            task : task,
+            taskId: newtask._id
         })
     }
     catch(e){
@@ -62,110 +63,107 @@ const getTasks = async(req,res)=>{
     }
 }
 
-const finishTask = async(req,res)=>{
-    try{
-        const userId = req.userInfo.userId
-        const taskId = req.query.id
+const finishTask = async (req, res) => {
+    try {
+        const userId = req.userInfo.userId;
+        const taskId = req.query.id;
 
-        const finishedTask = await Task.findOne(taskId)
+        const finishedTask = await Task.findOneAndUpdate(
+            { _id: taskId, userId },
+            { completed: true },
+            { new: true }
+        );
 
-        if(!finishedTask){
+        if (!finishedTask) {
             return res.status(404).json({
-                success : false,
-                message : 'Task not found'
-            })
+                success: false,
+                message: 'Task not found'
+            });
         }
 
-
-        finishedTask.completed = true
-
-        await finishedTask.save()
-
         res.status(200).json({
-            success : true,
-            task : finishedTask,
-            message : 'Task has been selected as finished'
-        })
-    }
-    catch(e){
+            success: true,
+            task: finishedTask,
+            message: 'Task has been selected as finished'
+        });
+
+    } catch (e) {
         res.status(500).json({
-            success : false,
-            message : 'Error while finish task'
-        })
-        console.log(e)
+            success: false,
+            message: 'Error while finishing task'
+        });
+        console.log(e);
     }
 }
 
-const unFinishTask = async(req,res)=>{
-    try{
-        const userId = req.userInfo.userId
-        const taskId = req.query.id
 
-        const finishedTask = await Task.findOne(taskId)
+const unFinishTask = async (req, res) => {
+    try {
+        const userId = req.userInfo.userId;
+        const taskId = req.query.id;
 
-        if(!finishedTask){
+        const unfinishedTask = await Task.findOneAndUpdate(
+            { _id: taskId, userId },
+            { completed: false },
+            { new: true }
+        );
+
+        if (!unfinishedTask) {
             return res.status(404).json({
-                success : false,
-                message : 'Task not found'
-            })
+                success: false,
+                message: 'Task not found'
+            });
         }
 
-
-        finishedTask.completed = false
-
-        await finishedTask.save()
-
         res.status(200).json({
-            success : true,
-            task : finishedTask,
-            message : 'Task has been selected as finished'
-        })
-    }
-    catch(e){
+            success: true,
+            task: unfinishedTask,
+            message: 'Task has been marked as unfinished'
+        });
+
+    } catch (e) {
         res.status(500).json({
-            success : false,
-            message : 'Error while finish task'
-        })
-        console.log(e)
+            success: false,
+            message: 'Error while marking task as unfinished'
+        });
+        console.log(e);
     }
 }
 
-const updateTask = async(req,res)=>{
-    try{
-        const userId = req.userInfo.userId
-        const taskId = req.query.id
-        const taskNewText = req.body.text
+const updateTask = async (req, res) => {
+    try {
+        const userId = req.userInfo.userId;
+        const taskId = req.query.id;
+        const taskNewText = req.body.text;
 
-        const taskUpdated = await Task.findOne({ _id: taskId, userId });
+        const updatedTask = await Task.findOneAndUpdate(
+            { _id: taskId, userId },                     
+            { task: taskNewText },                       
+            { new: true }                                
+        );
 
-        if(!taskUpdated){
+        if (!updatedTask) {
             return res.status(404).json({
-                success : false,
-                message : 'Task not found'
-            })
+                success: false,
+                message: 'Task not found'
+            });
         }
-
-
-        taskUpdated.task = taskNewText
-
-        await taskUpdated.save()
 
         res.status(202).json({
-            success : true,
-            message : 'Task has been updated',
-            task : taskUpdated
-        })
+            success: true,
+            message: 'Task has been updated',
+            task: updatedTask
+        });
 
-
-    }
-    catch(e){
+    } catch (e) {
         res.status(500).json({
-            success : false,
-            message : 'Error while updating task'
-        })
-        console.log(e)
+            success: false,
+            message: 'Error while updating task'
+        });
+        console.log(e);
     }
 }
+
 
 const deleteTask = async(req,res)=>{
     try{

@@ -175,6 +175,47 @@ section .hol button:hover{
     background-color: #c82333;
 }
 
+#tasksContainer .task .holder .buttons .save{
+    all: unset;
+    background-color: #0ac91d;
+    color : white;
+    border-radius: 20px;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    height: 2.5em;
+    width: 20%;
+    text-align: center;
+    vertical-align: middle; 
+}
+
+#tasksContainer .task .holder .buttons .save:hover {
+    background-color: #0ca31b;
+}
+
+
+#tasksContainer .task .holder .buttons .cancel{
+    all: unset;
+    background-color: #dc3545;
+    color : white;
+    border-radius: 20px;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    height: 2.5em;
+    width: 20%;
+    text-align: center;
+    vertical-align: middle; 
+}
+
+#tasksContainer .task .holder .buttons .cancel:hover {
+    background-color: #c82333;
+}
+
+
+
+
+
 footer{
     margin: 2em 0;
     width: 100%;
@@ -205,7 +246,14 @@ footer button{
     #tasksContainer  .task .holder .buttons .delete{    
         font-size: 0.8em;
     }
-       
+     
+    #tasksContainer  .task .holder .buttons .cancel{    
+        font-size: 0.8em;
+    }
+
+    #tasksContainer  .task .holder .buttons .save{    
+        font-size: 0.8em;
+    }
 }
 
 @media (max-width : 700px) {
@@ -232,6 +280,16 @@ footer button{
     }
         
     #tasksContainer  .task .holder .buttons .delete{    
+        font-size: 0.6em;
+        padding: 5px;
+    }
+
+    #tasksContainer  .task .holder .buttons .save{    
+        font-size: 0.6em;
+        padding: 5px;
+    }
+
+    #tasksContainer  .task .holder .buttons .cancel{    
         font-size: 0.6em;
         padding: 5px;
     }
@@ -289,6 +347,17 @@ footer button{
         width: 60%;
     }
 
+    #tasksContainer .task .holder .buttons .cancel{    
+        font-size: 0.6em;
+        padding: 5px;
+        width: 60%;
+    }
+
+    #tasksContainer .task .holder .buttons .save{    
+        font-size: 0.6em;
+        padding: 5px;
+        width: 60%;
+    }
 }
 
 

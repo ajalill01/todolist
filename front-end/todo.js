@@ -1,5 +1,119 @@
 const username = localStorage.getItem('username');
 document.getElementById('username').textContent = username.toUpperCase();
+let currentPage = 1;
+const limit = 10;
+let isLoading = false;
+let totalPages = null;
+
+
+async function loadTasks() {
+    if (isLoading || (totalPages && currentPage > totalPages)) return;
+
+    isLoading = true;
+
+    try {
+        const token = localStorage.getItem('authToken');
+
+        const res = await fetch(`http://localhost:5000/api/tasks/get?page=${currentPage}&limit=${limit}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            totalPages = data.pagination.totalPages;
+
+            data.tasks.forEach(task => {
+                renderTask(task);
+            });
+
+            currentPage++;
+        }
+    } catch (error) {
+        console.log("Error loading tasks", error);
+    } finally {
+        isLoading = false;
+    }
+}
+
+window.addEventListener('scroll', () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
+        loadTasks();
+    }
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+    loadTasks();
+});
+
+function renderTask(taskData) {
+    const container = document.getElementById('tasksContainer');
+
+    const task = document.createElement('div');
+    task.className = 'task';
+    task.setAttribute('data-id', taskData._id);
+
+    task.innerHTML = `
+        <div class="holder">
+            <textarea class="text" maxlength="70" disabled>${taskData.task}</textarea>
+            <button class="more"><b>...</b></button>
+            <div class="buttons">
+                <button class="status">${taskData.completed ? 'unfinish' : 'finish'}</button>
+                <button class="edit" >edit</button>
+                <button class="delete" >delete</button>
+                <button class="save" style="display:none;">Save</button>
+                <button class="cancel" style="display:none;">Cancel</button>
+            </div>
+        </div>
+    `;
+
+    const moreButton = task.querySelector('.more');
+    const editButton = task.querySelector('.edit');
+    const deleteButton = task.querySelector('.delete');
+    const saveButton = task.querySelector('.save');
+    const cancelButton = task.querySelector('.cancel');
+    const finishButton = task.querySelector('.status');
+
+
+    moreButton.addEventListener('click', function() {
+        toggleButtons(moreButton);
+    });
+
+    editButton.addEventListener('click', function() {
+        edit(editButton);
+    });
+
+    deleteButton.addEventListener('click', function () {
+        deleteTask(deleteButton);
+    });    
+
+    saveButton.addEventListener('click', function() {
+        save(saveButton);
+    });
+
+    cancelButton.addEventListener('click', function() {
+        task.remove();
+    });
+
+    finishButton.addEventListener('click', function () {
+        finish(finishButton);
+    });
+
+
+    if (taskData.completed) {
+        task.querySelector('.text').style.textDecoration = 'line-through';
+    }
+
+
+
+    container.appendChild(task);
+}
+
+
 
 function toggleButtons(moreButton) {
     const holder = moreButton.parentElement;
@@ -35,54 +149,6 @@ document.addEventListener('click', function (event) {
     });
 });
 
-async function edit(editBtn) {
-    const holder = editBtn.closest('.holder');
-    const textarea = holder.querySelector('textarea');
-
-    if (textarea.readOnly) {
-        textarea.readOnly = false;
-        editBtn.textContent = 'unedit';
-        textarea.style.border = '2px solid black';
-        textarea.focus();
-
-        const taskContent = ""
-
-        try {
-            
-            const token = localStorage.getItem('authToken'); 
-    
-            const response = await fetch('http://localhost:5000/api/tasks/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({ task: taskContent })
-            });
-    
-            const result = await response.json();
-
-
-            if (result.success) {
-                alert('Task added successfully');
-                console.log('Task added successfully:', result.message);
-                task.setAttribute('data-id', result.taskId);
-            } else {
-                alert('Failed to add task');
-                console.log('Failed to add task:', result.message);
-            }
-        } catch (error) {
-            alert('Error while adding task');
-            console.error('Error while adding task:', error);
-        }
-    
-    } else {
-        textarea.readOnly = true;
-        textarea.style.border = '';
-        editBtn.textContent = 'edit';
-    }
-}
-
 
 async function addTask() {
     const container = document.getElementById('tasksContainer');
@@ -92,14 +158,14 @@ async function addTask() {
 
     task.innerHTML = `
         <div class="holder">
-            <textarea readonly class="text" placeholder="the task" maxlength="70"></textarea>
+            <textarea class="text" placeholder="the task" maxlength="70"></textarea>
             <button class="more"><b>...</b></button>
             <div class="buttons">
                 <button class="status">finish</button>
-                <button class="edit">edit</button>
-                <button class="delete">delete</button>
-                <button class="save" style="display:none;">Save</button>
-                <button class="cancel" style="display:none;">Cancel</button>
+                <button class="edit" style="display:none;">edit</button>
+                <button class="delete" style="display:none;">delete</button>
+                <button class="save">Save</button>
+                <button class="cancel">Cancel</button>
             </div>
         </div>
     `;
@@ -113,6 +179,8 @@ async function addTask() {
     const deleteButton = task.querySelector('.delete');
     const saveButton = task.querySelector('.save');
     const cancelButton = task.querySelector('.cancel');
+    const finishButton = task.querySelector('.status');
+
 
     moreButton.addEventListener('click', function() {
         toggleButtons(moreButton);
@@ -122,18 +190,204 @@ async function addTask() {
         edit(editButton);
     });
 
-    deleteButton.addEventListener('click', function() {
-        task.remove();
-    });
+    deleteButton.addEventListener('click', function () {
+        deleteTask(deleteButton);
+    });    
 
     saveButton.addEventListener('click', function() {
         save(saveButton);
     });
 
     cancelButton.addEventListener('click', function() {
-        cancel(cancelButton);
+        task.remove();
+    });
+
+    finishButton.addEventListener('click', function () {
+        finish(finishButton);
     });
 
     task.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
+}
+
+
+async function save(saveBtn) {
+    const holder = saveBtn.closest('.holder');
+    const textareaElement = holder.querySelector('textarea');
+    const textarea = textareaElement.value;
+
+    if (!textarea) {
+        alert('Please you cannot add an empty task');
+        return;
+    }
+
+    try {
+        const token = localStorage.getItem('authToken');
+
+        const response = await fetch('http://localhost:5000/api/tasks/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ task: textarea })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            console.log('Task added successfully:', result.message);
+
+
+            const taskDiv = holder.closest('.task');
+            taskDiv.setAttribute('data-id', result.taskId);
+
+            const cancelBtn = holder.querySelector('.cancel');
+            const editBtn = holder.querySelector('.edit');
+            const deleteBtn = holder.querySelector('.delete');
+
+            cancelBtn.style.display = 'none';
+            saveBtn.style.display = 'none';
+            editBtn.style.display = 'inline-block';
+            deleteBtn.style.display = 'inline-block';
+
+            textareaElement.readOnly = true;
+            textareaElement.style.border = '';
+        } else {
+            console.log('Failed to add task:', result.message);
+        }
+    } catch (error) {
+        console.error('Error while adding task:', error);
+    }
+}
+
+async function edit(editBtn) {
+    const holder = editBtn.closest('.holder');
+    const textarea = holder.querySelector('textarea');
+    const taskDiv = holder.closest('.task'); 
+    const taskId = taskDiv?.getAttribute('data-id');
+
+    if (!taskId) {
+        alert("Task ID not found!");
+        return;
+    }
+
+    if (textarea.readOnly) {
+        textarea.readOnly = false;
+        editBtn.textContent = 'unedit';
+        textarea.style.border = '2px solid black';
+        textarea.focus();
+    } else {
+        const updatedText = textarea.value.trim();
+
+        if (!updatedText) {
+            alert("Task cannot be empty.");
+            return;
+        }
+
+        try {
+            const token = localStorage.getItem('authToken');
+
+            const response = await fetch(`http://localhost:5000/api/tasks/update?id=${taskId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ text: updatedText })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                console.log("Updated task:", result.task);
+            } else {
+                console.error("Server error:", result.message);
+            }
+
+        } catch (error) {
+            console.error('Error while updating task:', error);
+        }
+
+        textarea.readOnly = true;
+        textarea.style.border = '';
+        editBtn.textContent = 'edit';
+    }
+}
+
+async function finish(button) {
+    const holder = button.closest('.holder');
+    const textarea = holder.querySelector('.text');
+    const taskDiv = holder.closest('.task');
+    const taskId = taskDiv.getAttribute('data-id');
+
+    if (!taskId) {
+        alert('Task must be saved before finishing');
+        return;
+    }
+
+    const isFinished = button.textContent.toLowerCase() === 'unfinish';
+
+    try {
+        const token = localStorage.getItem('authToken');
+
+        const response = await fetch(`http://localhost:5000/api/tasks/${isFinished ? 'unfinish' : 'finish'}?id=${taskId}`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            if (isFinished) {
+                textarea.style.textDecoration = 'none';
+                button.textContent = 'finish';
+            } else {
+                textarea.style.textDecoration = 'line-through';
+                button.textContent = 'unfinish';
+            }
+        } else {
+            alert('Could not change task status');
+        }
+    } catch (e) {
+        console.error('Error toggling finish status', e);
+    }
+}
+
+async function deleteTask(deleteBtn) {
+    const taskDiv = deleteBtn.closest('.task');
+    const taskId = taskDiv.getAttribute('data-id');
+
+    if (!taskId) {
+        alert("Task ID is missing. Cannot delete.");
+        return;
+    }
+
+    const confirmDelete = confirm("Are you sure you want to delete this task?");
+    if (!confirmDelete) return;
+
+    try {
+        const token = localStorage.getItem('authToken');
+
+        const response = await fetch(`http://localhost:5000/api/tasks/delete?taskId=${taskId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            console.log('Task deleted:', result.message);
+            taskDiv.remove(); // remove from UI
+        } else {
+            alert('Failed to delete task: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error deleting task:', error);
+        alert('An error occurred while deleting the task.');
+    }
 }
