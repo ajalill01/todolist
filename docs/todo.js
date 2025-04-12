@@ -14,7 +14,7 @@ async function loadTasks() {
     try {
         const token = localStorage.getItem('authToken');
 
-        const res = await fetch(`http://localhost:5000/api/tasks/get?page=${currentPage}&limit=${limit}`, {
+        const res = await fetch(`https://todolist-6qfg.onrender.com/api/tasks/get?page=${currentPage}&limit=${limit}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -108,17 +108,12 @@ function renderTask(taskData) {
         task.querySelector('.text').style.textDecoration = 'line-through';
     }
 
-
-
     container.appendChild(task);
 }
-
-
 
 function toggleButtons(moreButton) {
     const holder = moreButton.parentElement;
     const buttons = holder.querySelector('.buttons');
-
 
     event.stopPropagation();
 
@@ -149,7 +144,6 @@ document.addEventListener('click', function (event) {
     });
 });
 
-
 async function addTask() {
     const container = document.getElementById('tasksContainer');
 
@@ -173,14 +167,12 @@ async function addTask() {
     container.appendChild(task);
     task.focus();
 
-
     const moreButton = task.querySelector('.more');
     const editButton = task.querySelector('.edit');
     const deleteButton = task.querySelector('.delete');
     const saveButton = task.querySelector('.save');
     const cancelButton = task.querySelector('.cancel');
     const finishButton = task.querySelector('.status');
-
 
     moreButton.addEventListener('click', function() {
         toggleButtons(moreButton);
@@ -207,9 +199,7 @@ async function addTask() {
     });
 
     task.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
 }
-
 
 async function save(saveBtn) {
     const holder = saveBtn.closest('.holder');
@@ -224,7 +214,7 @@ async function save(saveBtn) {
     try {
         const token = localStorage.getItem('authToken');
 
-        const response = await fetch('http://localhost:5000/api/tasks/add', {
+        const response = await fetch('https://todolist-6qfg.onrender.com/api/tasks/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -237,7 +227,6 @@ async function save(saveBtn) {
 
         if (result.success) {
             console.log('Task added successfully:', result.message);
-
 
             const taskDiv = holder.closest('.task');
             taskDiv.setAttribute('data-id', result.taskId);
@@ -288,7 +277,7 @@ async function edit(editBtn) {
         try {
             const token = localStorage.getItem('authToken');
 
-            const response = await fetch(`http://localhost:5000/api/tasks/update?id=${taskId}`, {
+            const response = await fetch(`https://todolist-6qfg.onrender.com/api/tasks/update?id=${taskId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -331,7 +320,7 @@ async function finish(button) {
     try {
         const token = localStorage.getItem('authToken');
 
-        const response = await fetch(`http://localhost:5000/api/tasks/${isFinished ? 'unfinish' : 'finish'}?id=${taskId}`, {
+        const response = await fetch(`https://todolist-6qfg.onrender.com/api/tasks/${isFinished ? 'unfinish' : 'finish'}?id=${taskId}`, {
             method: 'PATCH',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -361,17 +350,14 @@ async function deleteTask(deleteBtn) {
     const taskId = taskDiv.getAttribute('data-id');
 
     if (!taskId) {
-        alert("Task ID is missing. Cannot delete.");
+        alert("Task ID not found!");
         return;
     }
-
-    const confirmDelete = confirm("Are you sure you want to delete this task?");
-    if (!confirmDelete) return;
 
     try {
         const token = localStorage.getItem('authToken');
 
-        const response = await fetch(`http://localhost:5000/api/tasks/delete?taskId=${taskId}`, {
+        const response = await fetch(`https://todolist-6qfg.onrender.com/api/tasks/delete?taskId=${taskId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -382,12 +368,11 @@ async function deleteTask(deleteBtn) {
 
         if (result.success) {
             console.log('Task deleted:', result.message);
-            taskDiv.remove(); // remove from UI
+            taskDiv.remove();
         } else {
-            alert('Failed to delete task: ' + result.message);
+            console.error('Failed to delete task:', result.message);
         }
     } catch (error) {
-        console.error('Error deleting task:', error);
-        alert('An error occurred while deleting the task.');
+        console.error('Error while deleting task:', error);
     }
 }
