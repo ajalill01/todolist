@@ -12,16 +12,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: '*' }));
 
-app.use(express.static(path.join(__dirname, 'front-end')));
+app.use(express.static(path.join(__dirname, 'docs')));
 
 app.use('/api/tasks', taskRoutes);
 app.use('/api/users', authRoutes);
 
 app.get('/',(req, res) => {
-    res.sendFile(path.join(__dirname, 'front-end', 'index.html'));
+    res.sendFile(path.join(__dirname, 'docs', 'index.html'));
 })
 app.get('/todo', authMiddleware, (req, res) => {
-    res.sendFile(path.join(__dirname, 'front-end', 'todo.html'));
+    res.sendFile(path.join(__dirname, 'docs', 'todo.html'));
 });
 
 const port = process.env.PORT || 5000;
